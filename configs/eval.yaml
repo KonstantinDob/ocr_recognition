@@ -1,0 +1,11 @@
+# [train, eval, inference]
+mode: eval
+device: cuda
+pretrained: ./experiments/run_0/models/best_Model.pth
+metrics: {types: [accuracy_char, accuracy_word]}
+model: {backbone: ResNet ,sequence: BiLSTM,
+        prediction: CTC, input_channel: 3, output_channel: 512,
+        hidden_size: 256, num_class: 2, num_fiducial: 20}
+data: {all_in_memory: True, datapath: ./dataset,
+       mean: [36.8, 36.8, 36.8], std: [77.8, 77.8, 77.8],
+       image_size: [140, 35], vocabulary: basic.json, max_len: 30}

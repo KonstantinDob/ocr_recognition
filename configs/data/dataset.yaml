@@ -1,0 +1,20 @@
+datapath: ./dataset
+# Allow to load all dataset in the RAM. Be careful when working with
+# large datasets or small amounts of RAM.
+all_in_memory: False
+image_size: [140, 35]
+mean: [36.8, 36.8, 36.8]
+std: [77.8, 77.8, 77.8]
+# [basic.json]
+vocabulary: basic.json
+# Word parameters.
+max_len: 30
+# Augmentations.
+augmentations:
+  blur: 0.0
+  median_blur: 0.0
+  gray: 0.0
+  clahe: 0.0
+  brightness_contrast: 0.0
+  gamma: 0.0
+  image_comprehension: {quality_lower: 75, p: 0.0}

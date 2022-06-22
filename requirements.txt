@@ -1,0 +1,7 @@
+albumentations==1.1.0
+numpy==1.22.1
+opencv-python==4.5.5.62
+PyYAML==6.0
+torch==1.10.2
+tqdm==4.62.3
+gyomei_trainer @ git+https://github.com/KonstantinDob/gyomei_trainer.git#egg=gyomei_trainer

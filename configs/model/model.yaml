@@ -1,0 +1,13 @@
+# Optional[str] Model load weights from path.
+pretrained: null
+# [ResNet, VGG, RCNN]
+backbone: ResNet
+# [LSTM]
+sequence: BiLSTM
+# [CTC]
+prediction: CTC
+input_channel: 3
+output_channel: 512
+hidden_size: 256
+num_class: 2
+num_fiducial: 20
