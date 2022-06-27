@@ -30,8 +30,7 @@ class Rule:
     def _load_vocabulary(self):
         """Load vocabulary to convert text."""
         vocabulary_name = self.config['vocabulary']
-        vocabulary_path = join('ocr_recognition', 'data',
-                               'rule', vocabulary_name)
+        vocabulary_path = join(vocabulary_name)
 
         if not os.path.exists(vocabulary_path):
             raise FileNotFoundError("Can not find vocabulary!")

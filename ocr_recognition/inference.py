@@ -18,8 +18,7 @@ class InferenceOCRRec(OCRRec):
 
     def _load_vocabulary(self):
         """Load vocabulary to decode OCR prediction."""
-        vocabulary_path = join('ocr_recognition', 'data', 'rule',
-                               self.config["data"]["vocabulary"])
+        vocabulary_path = join(self.config["data"]["vocabulary"])
         with open(vocabulary_path, 'r') as file:
             self._vocabulary = json.load(file)
             self._vocabulary = dict((v, k) for k, v

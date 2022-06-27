@@ -6,7 +6,7 @@ image_size: [140, 35]
 mean: [36.8, 36.8, 36.8]
 std: [77.8, 77.8, 77.8]
 # [basic.json]
-vocabulary: basic.json
+vocabulary: ./ocr_recognition/data/rule/basic.json
 # Word parameters.
 max_len: 30
 # Augmentations.
