@@ -25,7 +25,7 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         '--datapath',
         type=str,
-        default='./dataset/inference'
+        default='./data/inference'
     )
 
     args = parser.parse_args()

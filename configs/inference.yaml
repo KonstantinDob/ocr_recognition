@@ -4,7 +4,7 @@ pretrained: ./experiments/run_0/models/best_Model.pth
 mean: [36.8, 36.8, 36.8]
 std: [77.8, 77.8, 77.8]
 image_size: [140, 35]
-data: {vocabulary: ./dataset/vocabulary/basic.json}
+data: {vocabulary: ./data/vocabulary/basic.json}
 model: {backbone: ResNet ,sequence: BiLSTM,
         prediction: CTC, input_channel: 3, output_channel: 512,
         hidden_size: 256, num_class: 2, num_fiducial: 20}
