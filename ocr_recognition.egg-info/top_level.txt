@@ -1,3 +1,0 @@
-bin
-ocr_recognition
-tests

@@ -25,7 +25,7 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         '--datapath',
         type=str,
-        default='./dataset/inference'
+        default='./data/inference'
     )
 
     args = parser.parse_args()
@@ -37,7 +37,6 @@ def main():
     config = create_main_config()
 
     inference = InferenceOCRRec(config)
-    inference.trainer.model.load_model(config['pretrained'])
     args = parse_arguments()
 
     image_names = os.listdir(args.datapath)

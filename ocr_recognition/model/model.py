@@ -29,6 +29,7 @@ class Model(nn.Module):
                                                                   1))
 
     def forward(self, data):
+        """Forward recognition model."""
         # Feature extraction
         visual_feature = self.backbone(data)
         visual_feature = self.adaptive_avg_pool(
@@ -86,8 +87,7 @@ def create_model(main_config: Dict[str, Any]) -> torch.nn.Module:
     # Create prediction model
     if config['prediction'] == 'CTC':
         vocabulary_name = main_config['data']['vocabulary']
-        vocabulary_path = join('ocr_recognition', 'data',
-                               'rule', vocabulary_name)
+        vocabulary_path = join(vocabulary_name)
         with open(vocabulary_path, 'r') as file:
             vocabulary = json.load(file)
 

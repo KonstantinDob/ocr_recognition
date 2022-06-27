@@ -1,4 +1,4 @@
-datapath: ./dataset
+datapath: ./data
 # Allow to load all dataset in the RAM. Be careful when working with
 # large datasets or small amounts of RAM.
 all_in_memory: False
@@ -6,7 +6,7 @@ image_size: [140, 35]
 mean: [36.8, 36.8, 36.8]
 std: [77.8, 77.8, 77.8]
 # [basic.json]
-vocabulary: basic.json
+vocabulary: ./data/vocabulary/basic.json
 # Word parameters.
 max_len: 30
 # Augmentations.

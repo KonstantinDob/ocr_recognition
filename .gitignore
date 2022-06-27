@@ -2,7 +2,7 @@
 .idea
 __pycache__/
 .pytest_cache/
-dataset/
+data/
 experiments/
 dist
 ocr_detection.egg-info
