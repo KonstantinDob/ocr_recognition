@@ -21,8 +21,8 @@ class InferenceOCRRec:
     def __init__(self, config: Dict[str, Any]):
         LOGGER.info('Creating OCR Recognition')
         self._augmentor: Optional[Augmentor] = None
-        self._model: Optional[torch.nn.Module] = None
         self._vocabulary: Dict[str, Optional] = dict()
+        self.model: Optional[torch.nn.Module] = None
 
         self.config = config
         self.device = self.config['device']
@@ -36,8 +36,8 @@ class InferenceOCRRec:
         model = create_model(self.config)
 
         self._load_vocabulary()
-        self._model = Model(model, None, None, self.config['device'])
-        self._model.load_model(file_path=self.config['pretrained'])
+        self.model = Model(model, None, None, self.config['device'])
+        self.model.load_model(file_path=self.config['pretrained'])
 
     def _load_vocabulary(self):
         """Load vocabulary to decode OCR prediction."""
@@ -81,7 +81,7 @@ class InferenceOCRRec:
         image = to_rgb(image=image)
         image = self.augmentor.resize_normalize(image=image)
         image = to_tensor(image).unsqueeze(0)
-        prediction = self._model.predict(
+        prediction = self.model.predict(
             image)[0].cpu().detach().numpy()
 
         prediction = self._prediction_to_text(prediction)
