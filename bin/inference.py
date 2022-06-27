@@ -37,7 +37,6 @@ def main():
     config = create_main_config()
 
     inference = InferenceOCRRec(config)
-    inference.trainer.model.load_model(config['pretrained'])
     args = parse_arguments()
 
     image_names = os.listdir(args.datapath)
