@@ -10,30 +10,38 @@ from ocr_recognition.model.sequence_model import BidirectionalLSTM
 from ocr_recognition.model.backbone import (
     VGGBackBone,
     RCNNBackBone,
-    ResNetBackBone
+    ResNetBackBone,
+    SmallNet
 )
 
 
 class Model(nn.Module):
-    """Result model."""
+    """Result model.
+
+    Args:
+        backbone (nn.Module): Backbone of model. Allow compress input
+            data to feature map before other modules.
+        sequence (nn.Module): Sequence model type. Need to make sequence
+            from the inout feature map.
+        prediction (nn.Module): Make prediction based on sequence.
+        pool (nn.Module): Need to connect backbone and sequence module.
+    """
 
     def __init__(self, backbone: nn.Module, sequence: nn.Module,
-                 prediction: nn.Module):
+                 prediction: nn.Module, pool: nn.Module):
         super(Model, self).__init__()
 
         self.backbone: nn.Module = backbone
         self.sequence: nn.Module = sequence
         self.prediction: nn.Module = prediction
-
-        self.adaptive_avg_pool: nn.Module = nn.AdaptiveAvgPool2d((None,
-                                                                  1))
+        self.avg_pool: nn.Module = pool
 
     def forward(self, data):
         """Forward recognition model."""
         # Feature extraction
         visual_feature = self.backbone(data)
-        visual_feature = self.adaptive_avg_pool(
-            visual_feature.permute(0, 3, 1, 2))
+        visual_feature = self.avg_pool(
+            visual_feature).permute(0, 3, 1, 2)
         visual_feature = visual_feature.squeeze(3)
 
         # Sequence model stage
@@ -68,6 +76,11 @@ def create_model(main_config: Dict[str, Any]) -> torch.nn.Module:
             input_channel=config['input_channel'],
             output_channel=config['output_channel']
         )
+    elif config['backbone'] == 'SimpleNet':
+        backbone = SmallNet(
+            input_channel=config['input_channel'],
+            output_channel=config['output_channel']
+        )
     else:
         raise KeyError('Incorrect backbone model name!')
 
@@ -84,6 +97,9 @@ def create_model(main_config: Dict[str, Any]) -> torch.nn.Module:
     else:
         raise KeyError('Incorrect sequence model name!')
 
+    if config['pool']['name'] == 'AvgPool':
+        pool = nn.AvgPool2d((config['pool']['factor'], 1))
+
     # Create prediction model
     if config['prediction'] == 'CTC':
         vocabulary_name = main_config['data']['vocabulary']
@@ -98,7 +114,7 @@ def create_model(main_config: Dict[str, Any]) -> torch.nn.Module:
 
     # Create text recognition model
     model = Model(backbone=backbone, sequence=sequence_model,
-                  prediction=prediction)
+                  prediction=prediction, pool=pool)
 
     LOGGER.info(
         f"Model is created with following properties:\n"
