@@ -1,9 +1,12 @@
 # Optional[str] Model load weights from path.
 pretrained: null
-# [ResNet, VGG, RCNN]
-backbone: ResNet
+# [ResNet, VGG, RCNN, SimpleNet]
+backbone: SimpleNet
 # [LSTM]
 sequence: BiLSTM
+# [AvgPool] factor should be selected manually.
+# Depend on backbone output.
+pool: {name: AvgPool, factor: 6}
 # [CTC]
 prediction: CTC
 input_channel: 3

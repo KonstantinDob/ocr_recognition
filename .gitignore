@@ -1,7 +1,8 @@
 .git
 .idea
-__pycache__/
 .pytest_cache/
+ocr_recognition.egg-info
+__pycache__/
 data/
 experiments/
 dist

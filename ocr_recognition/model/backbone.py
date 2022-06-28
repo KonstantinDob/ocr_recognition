@@ -187,7 +187,14 @@ class BasicBlock(nn.Module):
 
 
 class ResNet(nn.Module):
-    """ResNet."""
+    """ResNet.
+
+    Args:
+        input_channel (int): Channels of input data. For RGB images
+            input_channel == 3.
+        output_channel (int): Channels of output tensor. It's important
+            ro connect with other modules.
+    """
 
     def __init__(self, input_channel: int, output_channel: int,
                  block: Optional[nn.Module],
@@ -308,3 +315,43 @@ class ResNet(nn.Module):
         data = self.relu(data)
 
         return data
+
+
+class SmallNet(nn.Module):
+    """Small model without complicated modules.
+
+    Allows to more simple convert to ONNX.
+
+    Args:
+        input_channel (int): Channels of input data. For RGB images
+            input_channel == 3.
+        output_channel (int): Channels of output tensor. It's important
+            ro connect with other modules.
+    """
+    def __init__(self, input_channel: int, output_channel: int):
+        super(SmallNet, self).__init__()
+        self.conv1 = nn.Conv2d(input_channel, 32, kernel_size=(3, 3))
+        self.norm1 = nn.InstanceNorm2d(32)
+        self.conv2 = nn.Conv2d(32, 32, kernel_size=(3, 3), stride=2)
+        self.norm2 = nn.InstanceNorm2d(32)
+        self.conv3 = nn.Conv2d(32, 64, kernel_size=(3, 3))
+        self.norm3 = nn.InstanceNorm2d(64)
+        self.conv4 = nn.Conv2d(64, output_channel,
+                               kernel_size=(3, 3), stride=2)
+        self.norm4 = nn.InstanceNorm2d(output_channel)
+
+    def forward(self, x):
+        out = self.conv1(x)
+        out = self.norm1(out)
+        out = F.leaky_relu(out)
+        out = self.conv2(out)
+        out = self.norm2(out)
+        out = F.leaky_relu(out)
+        out = self.conv3(out)
+        out = self.norm3(out)
+        out = F.leaky_relu(out)
+        out = self.conv4(out)
+        out = self.norm4(out)
+        out = F.leaky_relu(out)
+
+        return out
