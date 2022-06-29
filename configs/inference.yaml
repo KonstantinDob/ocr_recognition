@@ -5,6 +5,7 @@ mean: [36.8, 36.8, 36.8]
 std: [77.8, 77.8, 77.8]
 image_size: [140, 35]
 data: {vocabulary: ./data/vocabulary/basic.json}
-model: {backbone: ResNet ,sequence: BiLSTM,
+model: {backbone: SimpleNet ,sequence: BiLSTM,
+        pool: {name: AvgPool, factor: 6},
         prediction: CTC, input_channel: 3, output_channel: 512,
         hidden_size: 256, num_class: 2, num_fiducial: 20}
