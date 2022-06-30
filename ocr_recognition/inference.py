@@ -33,7 +33,7 @@ class InferenceOCRRec(BaseInferenceOCRRec):
                 or grayscale.
 
         Returns:
-            List[np.ndarray]: List with predicted contours.
+            str: Predicted word.
         """
         image = to_rgb(image=image)
         image = self.augmentor.resize_normalize(image=image)
