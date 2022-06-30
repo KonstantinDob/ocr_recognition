@@ -40,6 +40,9 @@ RUN pip3 install --upgrade --no-cache-dir \
     setuptools==59.5.0 \
     packaging==21.2
 
+# Install OpenVINO
+RUN pip3 install openvino-dev==2022.1.0
+
 # Install python packages
 COPY ./requirements.txt /workdir
 RUN pip3 install -r ./requirements.txt
