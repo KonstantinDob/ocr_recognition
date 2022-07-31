@@ -25,7 +25,8 @@ setup(
     author="Konstantin Dobrokhodov",
     author_email="konstantin.dobrokhodov@gmail.com",
     url="",
-    description="Train OCR recognition models in PyTorch.",
+    description="Train Transformer/Sequential text "
+                "recognition models in PyTorch.",
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
     license='MIT',

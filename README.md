@@ -3,7 +3,7 @@
 ![Main image](pics/main_image_1.png)
 ![Main image](pics/main_image_2.png)
 
-Train OCR recognition models in PyTorch.
+Train Transformer/Sequential text recognition models in PyTorch.
 
 ## Installation
 
