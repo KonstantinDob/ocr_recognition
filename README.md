@@ -19,7 +19,7 @@ Requirements:
 From pip:
 ```
 python -m build
-pip install dist/ocr_recognition-1.0.0-py3-none-any.whl
+pip install dist/ocr_recognition-1.1.0-py3-none-any.whl
 ```
 
 From source:

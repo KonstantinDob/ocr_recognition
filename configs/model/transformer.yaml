@@ -1,0 +1,5 @@
+num_head: 2
+inp_channel: 512
+hidden_size: 256
+num_layer: 2
+dropout: 0.2

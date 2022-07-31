@@ -1,12 +1,14 @@
 # [train, eval, inference]
 mode: eval
 device: cuda
-pretrained: ./experiments/run_0/models/best_Model.pth
+pretrained: ./experiments/run_1/models/best_Model.pth
 metrics: {types: [accuracy_char, accuracy_word]}
-model: {backbone: SimpleNet ,sequence: BiLSTM,
+model: {backbone: SimpleNet ,sequence: BiLSTM, use_transformer: True,
         pool: {name: AvgPool, factor: 6},
         prediction: CTC, input_channel: 3, output_channel: 512,
         hidden_size: 256, num_class: 2, num_fiducial: 20}
+transformer: {num_head: 2, inp_channel: 512, hidden_size: 256,
+              num_layer: 2, dropout: 0.2}
 data: {all_in_memory: True, datapath: ./data,
        mean: [36.8, 36.8, 36.8], std: [77.8, 77.8, 77.8],
        image_size: [140, 35], max_len: 30,
