@@ -12,7 +12,7 @@ metrics: {types: [accuracy_char, accuracy_word],
           threshold: 0.5}
 main_metrics: [accuracy_word]
 # [Adam, SGD, Adadelta]
-optimizer: {name: Adam, lr: 0.001}
+optimizer: {name: Adam, lr: 0.0001}
 # [LinearLR, LambdaLR, None]
 scheduler: {'name': 'LinearLR', factor: 1.0}
 # early stopping patience

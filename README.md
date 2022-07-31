@@ -3,7 +3,7 @@
 ![Main image](pics/main_image_1.png)
 ![Main image](pics/main_image_2.png)
 
-Train OCR recognition models in PyTorch.
+Train Transformer/Sequential text recognition models in PyTorch.
 
 ## Installation
 
@@ -19,7 +19,7 @@ Requirements:
 From pip:
 ```
 python -m build
-pip install dist/ocr_recognition-1.0.0-py3-none-any.whl
+pip install dist/ocr_recognition-1.1.0-py3-none-any.whl
 ```
 
 From source:

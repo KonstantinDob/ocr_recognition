@@ -15,12 +15,16 @@ def create_main_config() -> Dict[str, Any]:
     with open('./configs/model/model.yaml', 'r') \
             as file:
         model_config = yaml.safe_load(file)
+    with open('./configs/model/transformer.yaml', 'r') \
+            as file:
+        transformer_config = yaml.safe_load(file)
     with open('./configs/train.yaml', 'r') as file:
         train_config = yaml.safe_load(file)
 
     config = {}
     config.update(train_config)
     config['model'] = model_config
+    config['transformer'] = transformer_config
     config['data'] = data_config
 
     return config

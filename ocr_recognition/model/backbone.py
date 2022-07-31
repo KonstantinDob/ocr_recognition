@@ -3,6 +3,13 @@ import torch.nn.functional as F
 from typing import Optional
 
 
+class DummyModule(nn.Module):
+    """Return same tensor."""
+
+    def forward(self, data):
+        return data
+
+
 class VGGBackBone(nn.Module):
     """FeatureExtractor of CRNN
     (https://arxiv.org/pdf/1507.05717.pdf)"""

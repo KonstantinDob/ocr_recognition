@@ -7,7 +7,9 @@ from typing import Dict, Any
 from ocr_recognition.visualizers.logger import LOGGER
 
 from ocr_recognition.model.sequence_model import BidirectionalLSTM
+from ocr_recognition.model.transformer import Transformer
 from ocr_recognition.model.backbone import (
+    DummyModule,
     VGGBackBone,
     RCNNBackBone,
     ResNetBackBone,
@@ -22,7 +24,8 @@ class Model(nn.Module):
         backbone (nn.Module): Backbone of model. Allow compress input
             data to feature map before other modules.
         sequence (nn.Module): Sequence model type. Need to make sequence
-            from the inout feature map.
+            from the inout feature map. In case of transformers
+            turned off.
         prediction (nn.Module): Make prediction based on sequence.
         pool (nn.Module): Need to connect backbone and sequence module.
     """
@@ -99,6 +102,8 @@ def create_model(main_config: Dict[str, Any]) -> torch.nn.Module:
 
     if config['pool']['name'] == 'AvgPool':
         pool = nn.AvgPool2d((config['pool']['factor'], 1))
+    else:
+        raise KeyError('Incorrect pooling name!')
 
     # Create prediction model
     if config['prediction'] == 'CTC':
@@ -107,8 +112,13 @@ def create_model(main_config: Dict[str, Any]) -> torch.nn.Module:
         with open(vocabulary_path, 'r') as file:
             vocabulary = json.load(file)
 
-        prediction = nn.Linear(config['hidden_size'],
-                               len(vocabulary))
+        if config['use_transformer']:
+            sequence_model = DummyModule()
+            prediction = Transformer(len(vocabulary),
+                                     main_config['transformer'])
+        else:
+            prediction = nn.Linear(config['hidden_size'],
+                                   len(vocabulary))
     else:
         raise KeyError('Incorrect prediction model name!')
 

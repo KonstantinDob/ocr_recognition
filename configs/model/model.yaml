@@ -2,15 +2,14 @@
 pretrained: null
 # [ResNet, VGG, RCNN, SimpleNet]
 backbone: SimpleNet
-# [LSTM]
+# [BiLSTM] in case of transformers turned off.
 sequence: BiLSTM
 # [AvgPool] factor should be selected manually.
 # Depend on backbone output.
 pool: {name: AvgPool, factor: 6}
+use_transformer: True
 # [CTC]
 prediction: CTC
 input_channel: 3
 output_channel: 512
 hidden_size: 256
-num_class: 2
-num_fiducial: 20
