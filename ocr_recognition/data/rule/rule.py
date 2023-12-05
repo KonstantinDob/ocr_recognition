@@ -16,26 +16,26 @@ class Rule:
     """
 
     def __init__(self, config: Dict[str, Any] = None):
-        LOGGER.info('Creating Rule processor')
+        LOGGER.info("Creating Rule processor")
 
-        self.config: Dict[str, Any] = config['data']
+        self.config: Dict[str, Any] = config["data"]
 
-        self.prediction: str = config['model']['prediction']
+        self.prediction: str = config["model"]["prediction"]
         self._vocabulary: Optional[np.ndarray] = None
 
         self._load_vocabulary()
 
-        LOGGER.info('Rule processor created')
+        LOGGER.info("Rule processor created")
 
     def _load_vocabulary(self):
         """Load vocabulary to convert text."""
-        vocabulary_name = self.config['vocabulary']
+        vocabulary_name = self.config["vocabulary"]
         vocabulary_path = join(vocabulary_name)
 
         if not os.path.exists(vocabulary_path):
             raise FileNotFoundError("Can not find vocabulary!")
 
-        with open(vocabulary_path, 'r') as file:
+        with open(vocabulary_path, "r") as file:
             self._vocabulary = json.load(file)
         file.close()
 
@@ -59,7 +59,7 @@ class Rule:
     def apply_rules(self, label: np.ndarray) -> np.ndarray:
         """Use specified rules to process text.
 
-        Now it's implemented length check.
+        Now it"s implemented length check.
 
         Args:
             label (np.ndarray): Label array.
@@ -67,12 +67,12 @@ class Rule:
         Returns:
             np.ndarray: Label array after all checks.
         """
-        out_label = np.zeros([self.config['max_len']])
-        out_label.fill(self._vocabulary['[s]'])
+        out_label = np.zeros([self.config["max_len"]])
+        out_label.fill(self._vocabulary["[s]"])
 
         out_label[:len(label)] = label
 
-        if self.prediction == 'CTC':
+        if self.prediction == "CTC":
             out_label = np.concatenate([out_label, [len(label)]])
         return out_label
 
@@ -84,6 +84,6 @@ class Rule:
 
         Returns:
             np.ndarray: Is this label okay."""
-        if len(label) > self.config['max_len'] or len(label) == 0:
+        if len(label) > self.config["max_len"] or len(label) == 0:
             return False
         return True

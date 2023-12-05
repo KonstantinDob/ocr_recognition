@@ -8,7 +8,7 @@ def create_logger() -> logging.Logger:
         logging.Logger: General logger.
     """
     logging.basicConfig(format="%(message)s", level=logging.INFO)
-    logger = logging.getLogger('ocr_recognition')
+    logger = logging.getLogger("ocr_recognition")
     return logger
 
 

@@ -2,7 +2,7 @@ import yaml
 import pytest
 from typing import Dict, Any
 
-from ocr_recognition.builder.builder import OCRRec
+from ocr_recognition.builder import OCRRec
 
 
 @pytest.fixture

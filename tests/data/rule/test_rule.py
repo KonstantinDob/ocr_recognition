@@ -2,7 +2,7 @@ import yaml
 import pytest
 from typing import Dict, Any
 
-from ocr_recognition.data.rule.rule import Rule
+from ocr_recognition.data.rule import Rule
 
 
 @pytest.fixture
