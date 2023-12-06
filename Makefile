@@ -40,12 +40,12 @@ test-cov:
 		pytest \
 			-p no:logging \
 			--cache-clear \
-			--cov ocr_detection/builder \
-			--cov ocr_detection/data \
-			--cov ocr_detection/metrics \
-			--cov ocr_detection/model \
-			--cov ocr_detection/modules \
-			--cov ocr_detection/visualizers \
+			--cov ocr_recognition/builder \
+			--cov ocr_recognition/data \
+			--cov ocr_recognition/metrics \
+			--cov ocr_recognition/model \
+			--cov ocr_recognition/modules \
+			--cov ocr_recognition/visualizers \
 			--junitxml=pytest.xml \
 			--cov-report term-missing:skip-covered \
 			--cov-report xml:coverage.xml \
