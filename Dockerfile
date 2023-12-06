@@ -1,5 +1,5 @@
 # Dockerfile based on: https://github.com/osai-ai/dokai
-FROM nvidia/cuda:11.4.2-cudnn8-devel-ubuntu20.04
+FROM nvidia/cuda:12.2.2-cudnn8-devel-ubuntu22.04
 
 ENV LANG C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
@@ -38,11 +38,13 @@ RUN CMAKE_VERSION=3.21.4 &&\
 RUN pip3 install --upgrade --no-cache-dir \
     pip==21.3.1 \
     setuptools==59.5.0 \
-    packaging==21.2
+    packaging==21.2 \
+    protobuf==3.20.*
 
 # Install OpenVINO
-RUN pip3 install openvino-dev==2022.1.0
+RUN pip3 install openvino-dev==2023.1.0
 
 # Install python packages
-COPY ./requirements.txt /workdir
+COPY . /workdir
 RUN pip3 install -r ./requirements.txt
+RUN pip3 install -r ./tests/requirements.txt

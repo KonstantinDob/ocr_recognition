@@ -6,7 +6,6 @@ build:
 
 run:
 	docker run --rm -it \
-		--gpus=$(GPUS) \
 		-v $(shell pwd):/workdir \
 		--name=$(NAME) \
 		$(NAME)

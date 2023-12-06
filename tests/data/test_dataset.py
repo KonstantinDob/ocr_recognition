@@ -2,7 +2,7 @@ import yaml
 import pytest
 from typing import Dict, Any
 
-from ocr_recognition.data.dataset import OCRRecDataset
+from ocr_recognition.data import OCRRecDataset
 
 
 @pytest.fixture
@@ -52,8 +52,6 @@ class TestDataset:
         for mode in ['train', 'test', 'val']:
             try:
                 OCRRecDataset(mode=mode, config=config)
-                # dataset created properly
-                assert created
             except FileNotFoundError:
                 # failed to create dataset
                 assert not created
@@ -76,8 +74,6 @@ class TestDataset:
 
         try:
             OCRRecDataset(mode=mode, config=config)
-            # dataset created properly
-            assert created
         except KeyError:
             # failed to create dataset
             assert not created

@@ -1,0 +1,25 @@
+name: Linter Check
+
+on: push
+
+jobs:
+  run_linter:
+    runs-on: self-hosted
+    steps:
+      - name: Clean up the workspace
+        run:  sudo rm -rf ${{ github.workspace }}/*
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install darglint==1.8.1 flake8-bandit==4.1.1 flake8-black==0.3.6 flake8-pyproject==1.2.3
+      - name: Run linter
+        run: flake8 ocr_recognition
+      - name: Clean up the workspace
+        run: sudo rm -rf ${{ github.workspace }}/.github
+

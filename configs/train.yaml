@@ -1,6 +1,6 @@
 # [train, eval, inference]
 mode: train
-device: cuda
+device: cpu
 epoch: 50
 batch_size: 64
 num_workers: 0

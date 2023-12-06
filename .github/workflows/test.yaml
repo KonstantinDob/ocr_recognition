@@ -1,0 +1,38 @@
+name: Pytest coverage report
+
+on:
+  pull_request:
+    branches: master
+
+jobs:
+  test_modules:
+    runs-on: self-hosted
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Stop old container
+        run: make stop
+      - name: Build image
+        run: make build
+      - name: Run tests coverage
+        run: make test-cov
+      - name: Stop container
+        run: make stop
+      - name: Generate pytest coverage report
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-xml-coverage-path: ./coverage.xml
+          junitxml-path: ./pytest.xml
+          title: Pytest coverage report
+          badge-title: Coverage
+          hide-badge: false
+          hide-comment: false
+          hide-report: false
+          create-new-comment: false
+          default-branch: master
+          report-only-changed-files: false
+      - name: Clean up the workspace
+        run: |
+          sudo rm -rf ${{ github.workspace }}/*
+          sudo rm -rf ${{ github.workspace }}/.pytest_cache
+
