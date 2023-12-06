@@ -23,7 +23,11 @@ class Rule:
         self.prediction: str = config["model"]["prediction"]
         self._vocabulary: Optional[np.ndarray] = None
 
-        self._load_vocabulary()
+        if not config["data"]["is_dummy"]:
+            self._load_vocabulary()
+        else:
+            LOGGER.warning("Load Dummy vocabulary!")
+            self._vocabulary = {"a": 0, "b": 1, "[s]": 2}
 
         LOGGER.info("Rule processor created")
 

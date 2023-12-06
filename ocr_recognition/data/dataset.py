@@ -45,7 +45,16 @@ class OCRRecDataset(Dataset):
         LOGGER.info("OCRRecDataset created")
 
     def _load_data(self) -> None:
-        """Load dataset in current mode."""
+        """Load dataset in current mode.
+        
+        Raises:
+            FileNotFoundError: Raise when datast is empty.
+        """
+        if self.config["is_dummy"] is True:
+            self.images, self.labels = self.generate_dummy_data(num_samples=10)
+            LOGGER.info("Dummy dataset is created")
+            return
+
         path = self.config["datapath"]
         data_file = join(path, f"{self.mode}_label.txt")
 
@@ -98,6 +107,22 @@ class OCRRecDataset(Dataset):
         else:
             image = np.uint8(cv2.imread(self.images[index]))
             return image, self.labels[index]
+
+    def generate_dummy_data(self, num_samples: int = 15) -> List[np.ndarray]:
+        """Generate dummy data.
+
+        Args:
+            num_samples: How much data should be generated.
+
+        Returns:
+            list of np.ndarray: generated labels and images.
+        """
+        image_size = self.config["image_size"] + [3]
+        images = [
+            np.uint8(np.random.randint(0, 255, size=image_size)) for _ in range(num_samples)
+        ]
+        labels = ["a" * np.random.randint(6,15) for _ in range(num_samples)]
+        return images, labels
 
     def __len__(self) -> int:
         """Get length of dataset.

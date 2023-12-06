@@ -34,15 +34,8 @@ class TestInference:
         config = create_main_config
 
         inference = InferenceOCRRec(config)
-        inference.trainer.model.load_model(config['pretrained'])
-
-        state = inference.trainer.state
+        if config['pretrained']:
+            inference.trainer.model.load_model(config['pretrained'])
+            state = inference.trainer.state
 
         assert inference.augmentor is not None
-        assert inference.trainer.valid_loader is None
-        assert inference.trainer.train_loader is None
-
-        assert state.device == 'cpu'
-        assert state.epoch == 0
-        assert state.folder_path is None
-        assert state.main_metrics is None

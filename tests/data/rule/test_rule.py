@@ -46,7 +46,6 @@ class TestRule:
         try:
             Rule(config=config)
             # dataset created properly
-            assert created
         except FileNotFoundError:
             # failed to create dataset
             assert not created

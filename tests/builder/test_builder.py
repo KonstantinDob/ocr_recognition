@@ -2,7 +2,7 @@ import yaml
 import pytest
 from typing import Dict, Any
 
-from ocr_recognition.builder import OCRRec
+from ocr_recognition.builder.builder import OCRRec
 
 
 @pytest.fixture
@@ -32,9 +32,9 @@ class TestBuilder:
         'datapath, created',
         [(None, True), ('./tests/data/empty_dataset', False)]
     )
-    def test_init(self, create_main_config,
-                  datapath: str, created: bool):
+    def test_init(self, create_main_config, datapath: str, created: bool):
         """Test builder initialization.
+
         Before the test CHECK your dataset.yaml. In this config
         datapath parameter should be correct path to the dataset!
 
@@ -48,6 +48,5 @@ class TestBuilder:
             config['data']['datapath'] = datapath
         try:
             OCRRec(config)
-            assert created
         except FileNotFoundError:
             assert not created

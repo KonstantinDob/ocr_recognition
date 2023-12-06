@@ -6,15 +6,15 @@ from os.path import join
 from typing import Dict, Any
 
 from ocr_recognition.visualizers import LOGGER
-from ocr_recognition.model import (
-    BidirectionalLSTM,
+from ocr_recognition.model.backbone import (
     DummyModule,
     RCNNBackBone,
     ResNetBackBone,
     SmallNet,
-    Transformer,
     VGGBackBone,
 )
+from ocr_recognition.model.sequence_model import BidirectionalLSTM
+from ocr_recognition.model.transformer import Transformer
 
 
 class Model(nn.Module):
@@ -128,8 +128,12 @@ def create_model(main_config: Dict[str, Any]) -> torch.nn.Module:
     if config["prediction"] == "CTC":
         vocabulary_name = main_config["data"]["vocabulary"]
         vocabulary_path = join(vocabulary_name)
-        with open(vocabulary_path, "r") as file:
-            vocabulary = json.load(file)
+        try:
+            with open(vocabulary_path, "r") as file:
+                vocabulary = json.load(file)
+        except FileNotFoundError:
+            LOGGER.warning("Vocabulary not found! Use empty vocabulary")
+            vocabulary = {"a": 0, "b": 1, "[s]": 2}
 
         if config["use_transformer"]:
             sequence_model = DummyModule()

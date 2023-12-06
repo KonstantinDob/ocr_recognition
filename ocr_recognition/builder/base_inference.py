@@ -33,9 +33,13 @@ class BaseInferenceOCRRec:
     def _load_vocabulary(self) -> None:
         """Load vocabulary to decode OCR prediction."""
         vocabulary_path = join(self.config["data"]["vocabulary"])
-        with open(vocabulary_path, "r") as file:
-            self._vocabulary = json.load(file)
-            self._vocabulary = dict((v, k) for k, v in self._vocabulary.items())
+        try:
+            with open(vocabulary_path, "r") as file:
+                self._vocabulary = json.load(file)
+                self._vocabulary = dict((v, k) for k, v in self._vocabulary.items())
+        except FileNotFoundError:
+            LOGGER.warning("Vocabulary not found! Use empty vocabulary")
+            self._vocabulary = {"a": 0, "b": 1, "[s]": 2}
 
     def _prediction_to_text(self, prediction: np.ndarray) -> str:
         """Convert prediction to text with vocabulary.

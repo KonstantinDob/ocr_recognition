@@ -1,6 +1,6 @@
 mode: inference
 device: cpu
-pretrained: ./experiments/run_1/models/best_Model.pth
+pretrained: null
 mean: [36.8, 36.8, 36.8]
 std: [77.8, 77.8, 77.8]
 image_size: [140, 35]

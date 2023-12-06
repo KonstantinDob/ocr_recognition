@@ -5,7 +5,7 @@ import numpy as np
 from ocr_recognition.model import create_model
 from ocr_recognition.data import to_tensor
 from ocr_recognition.visualizers import to_rgb
-from ocr_recognition.builder import BaseInferenceOCRRec
+from ocr_recognition.builder.base_inference import BaseInferenceOCRRec
 
 from gyomei_trainer.model import Model
 
@@ -28,7 +28,9 @@ class InferenceOCRRec(BaseInferenceOCRRec):
 
         self._load_vocabulary()
         self.model = Model(model, None, None, self.config["device"])
-        self.model.load_model(file_path=self.config["pretrained"])
+
+        if self.config["pretrained"]:
+            self.model.load_model(file_path=self.config["pretrained"])
 
     def predict(self, image: np.ndarray) -> str:
         """The model make prediction on image.
