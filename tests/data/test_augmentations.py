@@ -3,7 +3,7 @@ import pytest
 import numpy as np
 from typing import Dict, Tuple, Any
 
-from ocr_recognition.data.augmentations import Augmentor
+from ocr_recognition.data import Augmentor
 
 
 @pytest.fixture

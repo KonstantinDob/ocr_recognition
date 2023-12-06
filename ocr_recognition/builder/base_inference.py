@@ -5,33 +5,41 @@ from os.path import join
 from itertools import groupby
 from typing import Dict, Any, Optional
 
-from ocr_recognition.data.augmentations import Augmentor
-from ocr_recognition.visualizers.logger import LOGGER
+from ocr_recognition.data import Augmentor
+from ocr_recognition.visualizers import LOGGER
 
 
 class BaseInferenceOCRRec:
     """Base Inference OCR Recognition model."""
 
     def __init__(self, config: Dict[str, Any]):
-        LOGGER.info('Creating OCR Recognition')
+        """Base inference OCR recognition constructor.
+
+        Args:
+            config (dist of str: Any): Config with init data.
+        """
+        LOGGER.info("Creating OCR Recognition")
         self._augmentor: Optional[Augmentor] = None
-        self._vocabulary: Dict[str, Optional] = dict()
-        self.model: Optional = None
+        self._vocabulary: Dict[str, Optional[str]] = dict()
+        self.model: Any = None
 
         self.config = config
-        self.device = self.config['device']
-        if self.config['mode'] == 'inference':
+        self.device = self.config["device"]
+        if self.config["mode"] == "inference":
             self.augmentor = Augmentor(False, self.config)
         self._create_modules()
-        LOGGER.info('OCR Recognition is created')
+        LOGGER.info("OCR Recognition is created")
 
-    def _load_vocabulary(self):
+    def _load_vocabulary(self) -> None:
         """Load vocabulary to decode OCR prediction."""
         vocabulary_path = join(self.config["data"]["vocabulary"])
-        with open(vocabulary_path, 'r') as file:
-            self._vocabulary = json.load(file)
-            self._vocabulary = dict((v, k) for k, v
-                                    in self._vocabulary.items())
+        try:
+            with open(vocabulary_path, "r") as file:
+                self._vocabulary = json.load(file)
+                self._vocabulary = dict((v, k) for k, v in self._vocabulary.items())
+        except FileNotFoundError:
+            LOGGER.warning("Vocabulary not found! Use empty vocabulary")
+            self._vocabulary = {"a": 0, "b": 1, "[s]": 2}
 
     def _prediction_to_text(self, prediction: np.ndarray) -> str:
         """Convert prediction to text with vocabulary.
@@ -42,19 +50,24 @@ class BaseInferenceOCRRec:
         Returns:
             str: Decoded text.
         """
-        text = ''
-        if self.config['model']['prediction'] == 'CTC':
+        text = ""
+        if self.config["model"]["prediction"] == "CTC":
             max_index = np.argmax(prediction, axis=1)
-            prediction = np.int32(
-                [c for c, _ in groupby(max_index) if c != 0])
+            prediction = np.int32([c for c, _ in groupby(max_index) if c != 0])
             prediction = [self._vocabulary[key] for key in prediction]
-            text = ''.join(prediction)
+            text = "".join(prediction)
         return text
 
     @abc.abstractmethod
     def _create_modules(self):
+        """Create modules."""
         pass
 
     @abc.abstractmethod
     def predict(self, image: np.ndarray) -> str:
+        """Make prediction on the image.
+
+        Args:
+            image (np.ndarray): Image was loaded to NN.
+        """
         pass

@@ -1,9 +1,12 @@
 .git
 .idea
+.coverage
 .pytest_cache/
+coverage.xml
 ocr_recognition.egg-info
 __pycache__/
 data/
 experiments/
 dist
-ocr_detection.egg-info
+ocr_recognition.egg-info
+pytest.xml

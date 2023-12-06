@@ -1,6 +1,6 @@
 # [train, eval, inference]
 mode: eval
-device: cuda
+device: cpu
 pretrained: ./experiments/run_1/models/best_Model.pth
 metrics: {types: [accuracy_char, accuracy_word]}
 model: {backbone: SimpleNet ,sequence: BiLSTM, use_transformer: True,

@@ -7,7 +7,7 @@ sequence: BiLSTM
 # [AvgPool] factor should be selected manually.
 # Depend on backbone output.
 pool: {name: AvgPool, factor: 6}
-use_transformer: True
+use_transformer: False
 # [CTC]
 prediction: CTC
 input_channel: 3
